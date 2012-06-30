@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class UIGridView;
+@class UIGridViewCell;
+
 @protocol UIGridViewDelegate
 
 
