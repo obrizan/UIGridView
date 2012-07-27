@@ -21,5 +21,6 @@
 - (UIGridViewCell *) dequeueReusableCell;
 
 - (IBAction) cellPressed:(id) sender;
+- (IBAction) cellLongPressed:(id) sender;
 
 @end

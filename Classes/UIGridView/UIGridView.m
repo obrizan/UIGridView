@@ -137,7 +137,20 @@
 			[cell removeFromSuperview];
 			[row.contentView addSubview:cell];
 			
-			[cell addTarget:self action:@selector(cellPressed:) forControlEvents:UIControlEventTouchUpInside];
+			// Add gesture recoginzers:
+			// 1. Single tap
+			UITapGestureRecognizer *tapGR = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellPressed:)] autorelease];
+			[cell addGestureRecognizer:tapGR];
+			
+			// 2. Long press
+			UILongPressGestureRecognizer *longPressGR = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPressed:)] autorelease];
+			[cell addGestureRecognizer:longPressGR];
+			
+			// 3. Double tap
+			UITapGestureRecognizer *doubleTapGR = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellDoublePressed:)] autorelease];
+			doubleTapGR.numberOfTapsRequired = 2;
+			[cell addGestureRecognizer:doubleTapGR];
+			[tapGR requireGestureRecognizerToFail:doubleTapGR];
 		}
 		
 		cell.hidden = NO;
@@ -158,11 +171,47 @@
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
 - (IBAction) cellPressed:(id) sender
 {
-	UIGridViewCell *cell = (UIGridViewCell *) sender;
+	UIGestureRecognizer *recoginizer = (UIGestureRecognizer *)sender;
+	UIGridViewCell *cell = (UIGridViewCell *)recoginizer.view;
+
 	[uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+-(IBAction)cellLongPressed:(id)sender
+{
+	UIGestureRecognizer *recoginizer = (UIGestureRecognizer *)sender;
+	UIGridViewCell *cell = (UIGridViewCell *)recoginizer.view;
+	
+	// Invoke the delegate only at the beginning of recognizing.
+	// If not do so, the delegate is invoked twice: at the beggining and at the end
+	if (recoginizer.state == UIGestureRecognizerStateBegan)
+		[uiGridViewDelegate gridView:self didLongPressRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+-(IBAction)cellDoublePressed:(id)sender
+{
+	UIGestureRecognizer *recoginizer = (UIGestureRecognizer *)sender;
+	UIGridViewCell *cell = (UIGridViewCell *)recoginizer.view;
+	
+	[uiGridViewDelegate gridView:self didDoublePressRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 @end

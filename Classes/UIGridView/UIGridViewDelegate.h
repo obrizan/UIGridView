@@ -16,7 +16,8 @@
 
 @optional
 - (void) gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)columnIndex;
-
+- (void) gridView:(UIGridView *)grid didLongPressRowAt:(int)rowIndex AndColumnAt:(int)columnIndex;
+- (void) gridView:(UIGridView *)grid didDoublePressRowAt:(int)rowIndex AndColumnAt:(int)columnIndex;
 
 @required
 - (CGFloat) gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex;
