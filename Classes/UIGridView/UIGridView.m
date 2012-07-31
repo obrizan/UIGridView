@@ -147,10 +147,13 @@
 			[cell addGestureRecognizer:longPressGR];
 			
 			// 3. Double tap
+			// It is disable due to delays
+			/*
 			UITapGestureRecognizer *doubleTapGR = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellDoublePressed:)] autorelease];
 			doubleTapGR.numberOfTapsRequired = 2;
 			[cell addGestureRecognizer:doubleTapGR];
 			[tapGR requireGestureRecognizerToFail:doubleTapGR];
+			 */
 		}
 		
 		cell.hidden = NO;
